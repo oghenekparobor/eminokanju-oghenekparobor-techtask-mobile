@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tech_task/core/di/injection_container.dart';
 import 'package:tech_task/core/extension/app_state.dart';
 import 'package:tech_task/core/extension/context.dart';
 import 'package:tech_task/core/extension/widget.dart';
+import 'package:tech_task/core/network/network_info.dart';
 import 'package:tech_task/core/network/state.dart';
 import 'package:tech_task/core/util/loader.dart';
 import 'package:tech_task/core/widgets/notification.dart';
@@ -20,6 +22,20 @@ class ReceiptDate extends StatefulWidget {
 
 class _ReceiptDateState extends State<ReceiptDate> with Loader {
   bool initialLoding = false;
+
+  @override
+  void initState() {
+    sl<NetworkInfo>().getConnectivity();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    sl<NetworkInfo>().cancelInternetChecker();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

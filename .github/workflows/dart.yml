@@ -1,0 +1,43 @@
+name: Flutter QA workflow
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  FLUTTER_VERSION: 3.10.5
+  CHANNEL: stable
+  ARCH: x64
+
+jobs:
+  build:
+    name: Quality Assurance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.CHANNEL }}
+          architecture: ${{ env.ARCH }}
+
+      - name: Creating .env.staging file and populate with variables
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+          cat .env
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Running build runner
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Fix lint rules breaker
+        run: dart fix --apply
+
+      - name: Formatting lib folder
+        run: dart format lib
+
+      - name: Running tests
+        run: flutter test

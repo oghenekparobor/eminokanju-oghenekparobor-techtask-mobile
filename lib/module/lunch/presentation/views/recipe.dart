@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tech_task/core/extension/app_state.dart';
 import 'package:tech_task/core/extension/context.dart';
 import 'package:tech_task/core/extension/widget.dart';
+import 'package:tech_task/core/network/state.dart';
+import 'package:tech_task/core/util/loader.dart';
+import 'package:tech_task/core/widgets/notification.dart';
 import 'package:tech_task/core/widgets/primary.dart';
 import 'package:tech_task/core/widgets/text_field.dart';
 import 'package:tech_task/module/lunch/presentation/widgets/loader.dart';
 import 'package:tech_task/module/lunch/presentation/widgets/rtile.dart';
 
-class ReceiptDate extends StatelessWidget {
+class ReceiptDate extends StatefulWidget {
   const ReceiptDate({super.key});
+
+  @override
+  State<ReceiptDate> createState() => _ReceiptDateState();
+}
+
+class _ReceiptDateState extends State<ReceiptDate> with Loader {
+  bool initialLoding = false;
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +37,11 @@ class ReceiptDate extends StatelessWidget {
               16.verticalSpace,
               Wrap(
                 children: [
-                  for (var _ in [0, 0, 0, 0])
+                  for (var ingredient in context.lunch.selectedIngredients)
                     Padding(
                       padding: EdgeInsets.only(right: 4.w, bottom: 8.h),
                       child: Text(
-                        'Lorem ipsum',
+                        ingredient,
                         style: context.textTheme.bodyMedium,
                       ),
                     ),
@@ -47,8 +58,21 @@ class ReceiptDate extends StatelessWidget {
               ),
               8.verticalSpace,
               PrimaryButton(
-                onTap: () {},
+                onTap: () async {
+                  setState(() => initialLoding = true);
+                  toggleLoader();
+                  await context.lunch.getRecipes().then((value) {
+                    if (value.isError) {
+                      context.notify.addNotification(
+                        NotificationTile(message: (value as ErrorState).msg),
+                      );
+                    }
+
+                    toggleLoader();
+                  });
+                },
                 text: 'Show Recipes',
+                isLoading: isLoading,
               ),
               30.verticalSpace,
               Text(
@@ -59,26 +83,34 @@ class ReceiptDate extends StatelessWidget {
             ],
           ).padHorizontal,
           Expanded(
-            child: LayoutBuilder(
-              builder: (context, constraints) => PageView(
-                padEnds: true,
-                pageSnapping: true,
-                controller: PageController(
-                  viewportFraction: .75,
-                ),
-                children: [
-                  if (context.lunch.recipes == null) ...[
-                    for (int i = 0; i < 6; i++)
-                      MyShimmerLoader(
-                        height: 100.h,
-                        width: 100.w,
-                        rightMargin: true,
-                      ),
-                  ] else ...[
-                    for (var _ in [0, 0, 0, 0])
-                      RecipeTile(constraints: constraints),
+            child: StreamBuilder(
+              stream: context.lunch.allRecipesStream,
+              builder: (_, value) => LayoutBuilder(
+                builder: (context, constraints) => PageView(
+                  padEnds: true,
+                  pageSnapping: true,
+                  controller: PageController(
+                    viewportFraction: .75,
+                  ),
+                  children: [
+                    if (initialLoding) ...[
+                      if (value.data == null) ...[
+                        for (int i = 0; i < 6; i++)
+                          MyShimmerLoader(
+                            height: 100.h,
+                            width: 100.w,
+                            rightMargin: true,
+                          ),
+                      ] else ...[
+                        for (var recipe in value.data ?? [])
+                          RecipeTile(
+                            constraints: constraints,
+                            recipe: recipe,
+                          ),
+                      ],
+                    ]
                   ],
-                ],
+                ),
               ),
             ),
           ),

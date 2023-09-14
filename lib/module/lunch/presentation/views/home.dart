@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 import 'package:tech_task/config/route/route.dart';
 import 'package:tech_task/core/di/injection_container.dart';
+import 'package:tech_task/core/extension/app_state.dart';
 import 'package:tech_task/core/extension/context.dart';
 import 'package:tech_task/core/extension/widget.dart';
-import 'package:tech_task/core/logger/log.dart';
 import 'package:tech_task/core/network/network_info.dart';
+import 'package:tech_task/core/network/state.dart';
 import 'package:tech_task/core/widgets/notification.dart';
 import 'package:tech_task/core/widgets/primary.dart';
 import 'package:tech_task/module/lunch/data/models/ingredient.dart';
-import 'package:tech_task/module/lunch/presentation/change-notifier/lunch.dart';
 import 'package:tech_task/module/lunch/presentation/widgets/banner.dart';
 import 'package:tech_task/module/lunch/presentation/widgets/loader.dart';
 import 'package:tech_task/module/lunch/presentation/widgets/tile.dart';
@@ -26,8 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
+      // fetch all ingredients
       context.lunch.getIngredient().then((value) {
-        setState(() {});
+        if (value.isError) {
+          // if there's an error show the error to user
+          context.notify.addNotification(
+            NotificationTile(message: (value as ErrorState).msg),
+          );
+        }
       });
     });
 

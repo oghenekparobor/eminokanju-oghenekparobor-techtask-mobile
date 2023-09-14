@@ -41,18 +41,18 @@ class NetworkInfoImpl implements NetworkInfo {
       internetCheckerSubscription =
           Connectivity().onConnectivityChanged.listen((event) async {
         isDeviceConnected = await isConnected();
-        final networkStatus = storage.getFrom('EXCROW_NETWORK_STATUS');
+        final networkStatus = storage.getFrom('RECIPE_APP_NETWORK_STATUS');
 
         if (!isDeviceConnected) {
           if (networkStatus != 'NO_NETWORK') {
-            storage.setTo('EXCROW_NETWORK_STATUS', 'NO_NETWORK');
+            storage.setTo('RECIPE_APP_NETWORK_STATUS', 'NO_NETWORK');
             navkey.currentContext!.notify.addNotification(
               const NetowrkMessage(error: true),
             );
           }
         } else {
           if (networkStatus == 'NO_NETWORK') {
-            storage.setTo('EXCROW_NETWORK_STATUS', 'NETWORK_AVAILABLE');
+            storage.setTo('RECIPE_APP_NETWORK_STATUS', 'NETWORK_AVAILABLE');
             navkey.currentContext!.notify.removeNotification();
 
             navkey.currentContext!.notify.addNotification(

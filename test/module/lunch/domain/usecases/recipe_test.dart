@@ -17,7 +17,7 @@ void main() {
 
   test('get recipe - usecase', () async {
     // arrange
-    List<String> ingredients = ['Cheese', 'Bread'];
+    Set<String> ingredients = {'Cheese', 'Bread'};
 
     when(
       () => repo.getRecipe(ingredients.join(',')),
@@ -34,7 +34,7 @@ void main() {
   test('get recipe - usecase - Error ', () async {
     // Arrange
     var error = ErrorState('failed');
-    List<String> ingredients = ['Cheese'];
+    Set<String> ingredients = {'Cheese', 'Bread'};
 
     when(() => repo.getRecipe(ingredients.join(','))).thenThrow(error);
 

@@ -4,7 +4,7 @@ import 'package:tech_task/core/usecases/usecases.dart';
 import 'package:tech_task/module/lunch/domain/repository/repo.dart';
 
 @lazySingleton
-class GetRecipeUsecase extends Usecase<Future<AppState>, List<String>> {
+class GetRecipeUsecase extends Usecase<Future<AppState>, Set<String>> {
   GetRecipeUsecase({
     required this.repo,
   });
@@ -12,7 +12,7 @@ class GetRecipeUsecase extends Usecase<Future<AppState>, List<String>> {
   final LunchRepo repo;
 
   @override
-  Future<AppState> call(List<String> params) async {
+  Future<AppState> call(Set<String> params) async {
     String ingredients = params.join(',');
 
     return await repo.getRecipe(ingredients);

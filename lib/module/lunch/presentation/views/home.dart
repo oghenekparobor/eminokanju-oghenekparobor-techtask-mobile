@@ -22,23 +22,32 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool hasError = false;
+
   @override
   void initState() {
-    Future.delayed(Duration.zero, () {
-      // fetch all ingredients
-      context.lunch.getIngredient().then((value) {
-        if (value.isError) {
-          // if there's an error show the error to user
-          context.notify.addNotification(
-            NotificationTile(message: (value as ErrorState).msg),
-          );
-        }
-      });
-    });
+    Future.delayed(Duration.zero, _init);
 
     sl<NetworkInfo>().getConnectivity();
 
     super.initState();
+  }
+
+  void _init() {
+    // there's no error
+    setState(() => hasError = false);
+
+    // fetch all ingredients
+    context.lunch.getIngredient().then((value) {
+      if (value.isError) {
+        // if there's an error show the error to user
+        context.notify.addNotification(
+          NotificationTile(message: (value as ErrorState).msg),
+        );
+
+        setState(() => hasError = true);
+      }
+    });
   }
 
   @override
@@ -68,21 +77,23 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           10.verticalSpace,
-          PrimaryButton(
-            onTap: () {
-              if (context.lunch.selectedIngredients.isEmpty) {
-                context.notify.addNotification(
-                  NotificationTile(
-                    message: 'Please at least one ingredient',
-                  ),
-                );
-              } else {
-                context.nav.pushNamed(Routes.selectDate);
-              }
-            },
-            text: 'Get Recipe',
-            alignment: Alignment.center,
-          ).padHorizontal,
+          if (!hasError) ...[
+            PrimaryButton(
+              onTap: () {
+                if (context.lunch.selectedIngredients.isEmpty) {
+                  context.notify.addNotification(
+                    NotificationTile(
+                      message: 'Please at least one ingredient',
+                    ),
+                  );
+                } else {
+                  context.nav.pushNamed(Routes.selectDate);
+                }
+              },
+              text: 'Get Recipe',
+              alignment: Alignment.center,
+            ).padHorizontal,
+          ],
           30.verticalSpace,
         ],
       ),
@@ -97,30 +108,37 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           8.verticalSpace,
           Expanded(
-            child: SingleChildScrollView(
-              physics: ClampingScrollPhysics(),
-              child: StreamBuilder<List<Ingredients>?>(
-                stream: context.lunch.allIngredientStream,
-                builder: (_, value) => LayoutBuilder(
-                  builder: (context, constraints) => Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    spacing: 10.sp,
-                    children: [
-                      if (value.data == null) ...[
-                        for (int i = 0; i < 6; i++)
-                          MyShimmerLoader(height: 100.h, width: 100.w),
-                      ] else ...[
-                        for (var ingredient in value.data ?? [])
-                          IngredientTile(
-                            constraints: constraints,
-                            ingredient: ingredient,
-                          ),
-                      ],
-                    ],
+            child: hasError
+                ? Center(
+                    child: TextButton(
+                      onPressed: _init,
+                      child: Text('Try Again'),
+                    ),
+                  )
+                : SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    child: StreamBuilder<List<Ingredients>?>(
+                      stream: context.lunch.allIngredientStream,
+                      builder: (_, value) => LayoutBuilder(
+                        builder: (context, constraints) => Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          spacing: 10.sp,
+                          children: [
+                            if (value.data == null) ...[
+                              for (int i = 0; i < 6; i++)
+                                MyShimmerLoader(height: 100.h, width: 100.w),
+                            ] else ...[
+                              for (var ingredient in value.data ?? [])
+                                IngredientTile(
+                                  constraints: constraints,
+                                  ingredient: ingredient,
+                                ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
           ),
         ],
       ).padHorizontal,

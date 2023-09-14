@@ -67,6 +67,8 @@ class LunchNotifier with ChangeNotifier {
   Stream<List<Recipe>?> get allRecipesStream => _recipeStream.stream;
 
   Future<AppState> getRecipes() async {
+    _recipeStream.add(null);
+
     var response = await getRecipeUsecase.call(selectedIngredients);
 
     if (!response.isError) {

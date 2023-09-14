@@ -22,7 +22,7 @@ jobs:
           channel: ${{ env.CHANNEL }}
           architecture: ${{ env.ARCH }}
 
-      - name: Creating .env.staging file and populate with variables
+      - name: Creating .env file and populate with variables
         run: |
           echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
           cat .env

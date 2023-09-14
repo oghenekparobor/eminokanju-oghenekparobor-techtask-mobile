@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tech_task/core/extension/context.dart';
 
 ThemeData theme(BuildContext context) => ThemeData(
-      fontFamily: 'montserratAlternates',
       brightness: Brightness.light,
       visualDensity: VisualDensity.adaptivePlatformDensity,
       textTheme: TextTheme(
@@ -12,7 +11,7 @@ ThemeData theme(BuildContext context) => ThemeData(
           decoration: TextDecoration.none,
           fontStyle: FontStyle.normal,
           fontSize: 13.sp,
-          fontFamily: 'CocomatPro',
+          fontFamily: 'SKCuriosityRounded',
         ),
         displayLarge: TextStyle(
           color: const Color(0xFF0E0E0D),
@@ -20,23 +19,23 @@ ThemeData theme(BuildContext context) => ThemeData(
           fontStyle: FontStyle.normal,
           fontWeight: FontWeight.bold,
           fontSize: 40.sp,
-          fontFamily: 'CocomatPro',
+          fontFamily: 'SKCuriosityRounded',
         ),
         bodyMedium: TextStyle(
           color: const Color(0xFF0E0E0D),
           decoration: TextDecoration.none,
           fontStyle: FontStyle.normal,
           fontSize: 16.sp,
-          fontFamily: 'CocomatPro',
+          fontFamily: 'SKCuriosityRounded',
           fontWeight: FontWeight.bold,
         ),
         displayMedium: TextStyle(
           color: const Color(0xFF0E0E0D),
-          fontWeight: FontWeight.w200,
+          fontWeight: FontWeight.w400,
           decoration: TextDecoration.none,
           fontStyle: FontStyle.normal,
           fontFamily: 'SKCuriosityRounded',
-          fontSize: 32.sp,
+          fontSize: 24.sp,
         ),
         labelMedium: TextStyle(
           color: const Color(0xFF0E0E0D),
@@ -48,6 +47,7 @@ ThemeData theme(BuildContext context) => ThemeData(
         ),
       ),
       primaryColor: Colors.black,
+      scaffoldBackgroundColor: Color(0xFFF7F7F7),
       colorScheme: Theme.of(context).colorScheme.copyWith(
             secondary: Colors.black,
             primary: Colors.black,
@@ -83,7 +83,7 @@ ThemeData theme(BuildContext context) => ThemeData(
       ),
       appBarTheme: context.appbarTheme.copyWith(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         iconTheme: const IconThemeData(color: Color(0xFF373737)),
         actionsIconTheme: const IconThemeData(color: Colors.black),
         centerTitle: true,
@@ -128,7 +128,7 @@ ThemeData theme(BuildContext context) => ThemeData(
           decoration: TextDecoration.none,
           fontStyle: FontStyle.normal,
           fontSize: 16.sp,
-          fontFamily: 'CocomatPro',
+          fontFamily: 'SKCuriosityRounded',
           fontWeight: FontWeight.bold,
         ),
         elevation: 0,
@@ -137,7 +137,7 @@ ThemeData theme(BuildContext context) => ThemeData(
           decoration: TextDecoration.none,
           fontStyle: FontStyle.normal,
           fontSize: 18.sp,
-          fontFamily: 'CocomatPro',
+          fontFamily: 'SKCuriosityRounded',
           fontWeight: FontWeight.bold,
         ),
         todayBorder: BorderSide(

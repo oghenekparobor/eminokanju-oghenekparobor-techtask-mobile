@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tech_task/core/extension/app_state.dart';
+import 'package:tech_task/core/logger/log.dart';
 import 'package:tech_task/core/network/state.dart';
 import 'package:tech_task/core/usecases/usecases.dart';
 import 'package:tech_task/module/lunch/data/models/ingredient.dart';
@@ -20,19 +23,23 @@ class LunchNotifier with ChangeNotifier {
 
   List<Ingredients>? ingredients;
 
+  final StreamController<List<Ingredients>?> _ingredientsStream =
+      StreamController<List<Ingredients>?>.broadcast();
+
+  Stream<List<Ingredients>?> get allIngredientStream =>
+      _ingredientsStream.stream;
+
   Future<AppState> getIngredient() async {
     var responses = await getIngredientUsecase.call(NoParams());
 
     if (!responses.isError) {
-      ingredients = (responses as LoadedState)
-          .data
-          .map((datum) => Ingredients.fromJson(datum))
-          .toList();
+      var data = (responses as LoadedState).data as List;
+      ingredients = data.map((datum) => Ingredients.fromJson(datum)).toList();
     } else {
       ingredients = [];
     }
 
-    notifyListeners();
+    _ingredientsStream.add(ingredients);
 
     return responses;
   }
@@ -45,6 +52,8 @@ class LunchNotifier with ChangeNotifier {
     } else {
       selectedIngredients.add(ingredient.title);
     }
+
+    notifyListeners();
   }
 
   bool isIngredientSelected(Ingredients ingredient) {

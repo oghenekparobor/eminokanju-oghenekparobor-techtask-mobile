@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tech_task/core/di/injection_container.dart';
+import 'package:provider/provider.dart';
 import 'package:tech_task/core/util/toast.dart';
 import 'package:tech_task/module/lunch/presentation/change-notifier/lunch.dart';
 
@@ -28,7 +28,7 @@ extension CxtExtension on BuildContext {
   MediaQueryData get mediaQuery => MediaQuery.of(this);
 
   // view models
-  LunchNotifier get auth => sl<LunchNotifier>();
+  LunchNotifier get lunch => read<LunchNotifier>();
 
   Object get arg => ModalRoute.of(this)!.settings.arguments!;
 }

@@ -60,7 +60,7 @@ class IngredientTile extends StatelessWidget {
               Text(
                 ingredient.title,
                 style: context.textTheme.bodySmall!.copyWith(
-                  fontSize: 15.sp,
+                  fontSize: 11.sp,
                 ),
               ),
               8.verticalSpace,

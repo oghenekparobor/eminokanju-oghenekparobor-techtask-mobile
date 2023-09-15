@@ -86,4 +86,8 @@ class LunchNotifier with ChangeNotifier {
 
     return response;
   }
+
+  bool isDatePaased(Ingredients ingredient) {
+    return DateTime.now().isAfter(ingredient.useBy);
+  }
 }

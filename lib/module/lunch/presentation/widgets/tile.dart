@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tech_task/core/constants-n-assets/assets.dart';
 import 'package:tech_task/core/extension/context.dart';
+import 'package:tech_task/core/widgets/notification.dart';
 import 'package:tech_task/module/lunch/data/models/ingredient.dart';
 import 'package:tech_task/module/lunch/presentation/change-notifier/lunch.dart';
 
@@ -22,7 +23,15 @@ class IngredientTile extends StatelessWidget {
     return ElasticIn(
       child: InkWell(
         onTap: () {
-          context.lunch.addRemoveIngredient(ingredient);
+          if (context.lunch.isDatePaased(ingredient)) {
+            context.notify.addNotification(
+              NotificationTile(
+                message: '${ingredient.title} is passed it\'s use date',
+              ),
+            );
+          } else {
+            context.lunch.addRemoveIngredient(ingredient);
+          }
         },
         child: Container(
           margin: EdgeInsets.only(

@@ -43,4 +43,4 @@ jobs:
         run: flutter test
 
       - name: Running integration tests
-        run: flutter test integration_test/start_app.dart 
+        run: flutter test integration_test/start_app.dart  --device-id emulator-5554

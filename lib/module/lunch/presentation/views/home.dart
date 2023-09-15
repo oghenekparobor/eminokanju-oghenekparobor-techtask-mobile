@@ -37,15 +37,20 @@ class _HomeScreenState extends State<HomeScreen> with Loader {
 
   void _init() {
     // there's no error
-    setState(() => hasError = false);
-    setState(() => initialFetch = true);
+    setState(() {
+      hasError = false;
+      initialFetch = true;
+    });
 
     // fetch all ingredients
     context.lunch.getIngredient().then((value) {
       if (value.isError) {
         // if there's an error show the error to user
         context.notify.addNotification(
-          NotificationTile(message: (value as ErrorState).msg),
+          NotificationTile(
+            message: (value as ErrorState).msg,
+            error: true,
+          ),
         );
 
         setState(() => hasError = true);
@@ -117,7 +122,10 @@ class _HomeScreenState extends State<HomeScreen> with Loader {
           8.verticalSpace,
           PrimaryDatePicker(
             dateSelected: (d) {
-              setState(() => hasGottenIngredient = false);
+              setState(() {
+                hasGottenIngredient = false;
+                initialFetch = false;
+              });
             },
           ),
           8.verticalSpace,

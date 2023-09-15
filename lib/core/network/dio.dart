@@ -12,7 +12,6 @@ class NetworkRequester {
 
   final Dio dio;
 
-
   Future<dynamic> get(
     String endpoint, {
     bool isProtected = true,

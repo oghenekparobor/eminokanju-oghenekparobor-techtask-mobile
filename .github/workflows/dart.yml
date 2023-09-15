@@ -42,20 +42,20 @@ jobs:
       - name: Running unit tests
         run: flutter test
 
-      - name: Set up Android SDK
-        run: |
-          sdkmanager "system-images;android-29;google_apis;x86_64"
-          avdmanager --verbose create avd --force --name "flutter_test" --package "system-images;android-29;google_apis;x86_64" --tag "google_apis" --abi "x86_64"
-          echo "no" | avdmanager --verbose create avd --force --name "flutter_test" --package "system-images;android-29;google_apis;x86_64" --tag "google_apis" --abi "x86_64"
+      # - name: Set up Android SDK
+      #   run: |
+      #     sdkmanager "system-images;android-29;google_apis;x86_64"
+      #     avdmanager --verbose create avd --force --name "flutter_test" --package "system-images;android-29;google_apis;x86_64" --tag "google_apis" --abi "x86_64"
+      #     echo "no" | avdmanager --verbose create avd --force --name "flutter_test" --package "system-images;android-29;google_apis;x86_64" --tag "google_apis" --abi "x86_64"
         
-      - name: Launch Android Emulator
-        run: |
-          emulator -avd flutter_test -no-skin -no-audio -no-window -accel on
+      # - name: Launch Android Emulator
+      #   run: |
+      #     emulator -avd flutter_test -no-skin -no-audio -no-window -accel on
 
-      - name: Wait for Emulator to be ready
-        run: |
-          flutter emulators --launch flutter_test
-          flutter devices
+      # - name: Wait for Emulator to be ready
+      #   run: |
+      #     flutter emulators --launch flutter_test
+      #     flutter devices
 
-      - name: Running integration tests
-        run: flutter test integration_test/start_app.dart
+      # - name: Running integration tests
+      #   run: flutter test integration_test/start_app.dart

@@ -42,11 +42,12 @@ jobs:
       - name: Running unit tests
         run: flutter test
 
-      - name: Setup Android Emulator
+      - name: Set up Android SDK
         run: |
-          echo "y" | sdkmanager "system-images;android-29;google_apis;x86_64"
+          sdkmanager "system-images;android-29;google_apis;x86_64"
+          avdmanager --verbose create avd --force --name "flutter_test" --package "system-images;android-29;google_apis;x86_64" --tag "google_apis" --abi "x86_64"
           echo "no" | avdmanager --verbose create avd --force --name "flutter_test" --package "system-images;android-29;google_apis;x86_64" --tag "google_apis" --abi "x86_64"
-
+        
       - name: Launch Android Emulator
         run: |
           emulator -avd flutter_test -no-skin -no-audio -no-window -accel on

@@ -10,7 +10,7 @@ Apps for Lunch Recipes Suggestion
 - Install the flutter plugins ```flutter pub get```
 - Create your ```.env``` file at the root of the project containing the ```BASE_URL=/*enter base url here*/```
 - Get all generated classes ```dart run build_runner build --delete-conflicting-outputs```
-- Run test to make such everything is in place ```flutter test``` and ```flutter test integration_test/start_app.dartclear```
+- Run test to make such everything is in place ```flutter test``` and ```flutter test integration_test/start_app.dart```
 - We either you physical device connected or an emulator run the project ```flutter run```
 
 ## Time Management

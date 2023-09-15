@@ -9,18 +9,21 @@ class PrimaryButton extends StatelessWidget {
     super.key,
     this.alignment,
     this.isLoading = false,
+    this.widgetKey,
   });
 
   final String text;
   final VoidCallback? onTap;
   final Alignment? alignment;
   final bool isLoading;
+  final String? widgetKey;
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
+        key: Key(widgetKey ?? DateTime.now().toIso8601String()),
         onTap: isLoading ? null : onTap,
         child: Container(
           padding: EdgeInsets.symmetric(

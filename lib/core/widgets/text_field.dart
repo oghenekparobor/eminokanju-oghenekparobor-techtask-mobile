@@ -17,6 +17,7 @@ class PrimaryTextfield extends StatelessWidget {
     this.suffix,
     this.formatter,
     this.controller,
+    this.widgetKey,
   });
 
   final Function(String) onChanged;
@@ -31,10 +32,12 @@ class PrimaryTextfield extends StatelessWidget {
   final Widget? suffix;
   final List<TextInputFormatter>? formatter;
   final TextEditingController? controller;
+  final String? widgetKey;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      key: Key(widgetKey ?? DateTime.now().toIso8601String()),
       controller: controller,
       onTap: onTap,
       readOnly: readOnly,

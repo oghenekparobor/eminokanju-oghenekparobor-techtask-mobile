@@ -22,6 +22,7 @@ class IngredientTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElasticIn(
       child: InkWell(
+        key: Key(ingredient.title),
         onTap: () {
           if (context.lunch.isDatePaased(ingredient)) {
             context.notify.addNotification(

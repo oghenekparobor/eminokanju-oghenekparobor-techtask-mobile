@@ -10,10 +10,12 @@ import 'package:tech_task/core/widgets/text_field.dart';
 class PrimaryDatePicker extends StatefulWidget {
   const PrimaryDatePicker({
     required this.dateSelected,
+    this.widgetKey,
     super.key,
   });
 
   final Function(String) dateSelected;
+  final String? widgetKey;
 
   @override
   State<PrimaryDatePicker> createState() => _PrimaryDatePickerState();
@@ -40,6 +42,7 @@ class _PrimaryDatePickerState extends State<PrimaryDatePicker> {
   @override
   Widget build(BuildContext context) {
     return PrimaryTextfield(
+      widgetKey: widget.widgetKey,
       onChanged: (String v) {},
       onSaved: (String v) {},
       hint: 'Date',

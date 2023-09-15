@@ -31,7 +31,10 @@ class _SplachScreenState extends State<SplachScreen> {
     return Scaffold(
       body: Center(
         child: ElasticIn(
-          child: Image.asset(kLogo),
+          child: Image.asset(
+            kLogo,
+            key: Key('splash_image_logo'),
+          ),
         ),
       ),
     );

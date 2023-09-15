@@ -11,18 +11,14 @@ import 'package:tech_task/config/route/route.dart';
 import 'package:tech_task/config/theme/theme.dart';
 import 'package:tech_task/core/di/injection_container.dart';
 import 'package:tech_task/core/extension/context.dart';
+import 'package:tech_task/core/logger/log.dart';
 import 'package:tech_task/core/util/toast.dart';
 import 'package:tech_task/firebase_options.dart';
 import 'package:tech_task/module/lunch/presentation/change-notifier/lunch.dart';
 
-void main() async {
-  runZonedGuarded<Future<void>>(() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-
+Future<void> main() async {
+  AppLogger.log('starting app');
+  await runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -31,13 +27,16 @@ void main() async {
 
     // dependecies configuration
     await configureDependencies();
+    AppLogger.log('Dependencies configured');
 
     // initialize firebase app
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    AppLogger.log('Firebase initialized');
 
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    AppLogger.log('Firebase Crashlytic running');
 
     runApp(MyApp());
   }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
@@ -82,6 +81,7 @@ class MyApp extends StatelessWidget {
               child: NotificationStack(child: child!),
             );
           },
+          navigatorKey: navkey,
         ),
       ),
     );

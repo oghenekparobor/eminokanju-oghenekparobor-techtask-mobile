@@ -21,6 +21,7 @@ class LunchNotifier with ChangeNotifier {
   final GetIngredientUsecase getIngredientUsecase;
 
   List<Ingredients>? _ingredients;
+  List<Ingredients>? get ingredients => _ingredients;
 
   final StreamController<List<Ingredients>?> _ingredientsStream =
       StreamController<List<Ingredients>?>.broadcast();
@@ -63,6 +64,7 @@ class LunchNotifier with ChangeNotifier {
   }
 
   List<Recipe>? _recipes;
+  List<Recipe>? get recipes => _recipes;
 
   final StreamController<List<Recipe>?> _recipeStream =
       StreamController<List<Recipe>?>.broadcast();
@@ -88,6 +90,6 @@ class LunchNotifier with ChangeNotifier {
   }
 
   bool isDatePaased(Ingredients ingredient) {
-    return DateTime.now().isAfter(ingredient.useBy);
+    return !DateTime.now().isAfter(ingredient.useBy);
   }
 }

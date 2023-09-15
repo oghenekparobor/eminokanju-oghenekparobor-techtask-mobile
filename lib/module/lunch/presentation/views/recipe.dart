@@ -39,6 +39,7 @@ class _ReceiptDateState extends State<ReceiptDate> with Loader {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key('recipe_screen'),
       appBar: AppBar(
         title: Text('Select Date'),
         centerTitle: false,
@@ -74,6 +75,7 @@ class _ReceiptDateState extends State<ReceiptDate> with Loader {
                 },
                 text: 'Show Recipes',
                 isLoading: isLoading,
+                widgetKey: 'show_recipe_button',
               ),
               30.verticalSpace,
               Text(

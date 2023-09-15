@@ -70,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> with Loader {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key('home_scree'),
       appBar: AppBar(
         title: Text(
           'Welcome',
@@ -105,6 +106,7 @@ class _HomeScreenState extends State<HomeScreen> with Loader {
               text: hasGottenIngredient ? 'Get Recipe' : 'Get Ingredients',
               alignment: Alignment.center,
               isLoading: isLoading,
+              widgetKey: 'get_ingredient',
             ).padHorizontal,
           ],
           30.verticalSpace,
@@ -121,6 +123,7 @@ class _HomeScreenState extends State<HomeScreen> with Loader {
           ),
           8.verticalSpace,
           PrimaryDatePicker(
+            widgetKey: 'date_picker',
             dateSelected: (d) {
               setState(() {
                 hasGottenIngredient = false;
@@ -135,6 +138,7 @@ class _HomeScreenState extends State<HomeScreen> with Loader {
                     child: TextButton(
                       onPressed: _init,
                       child: Text('Try Again'),
+                      key: Key('try_again_button'),
                     ),
                   )
                 : SingleChildScrollView(

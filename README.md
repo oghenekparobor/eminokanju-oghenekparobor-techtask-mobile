@@ -3,6 +3,15 @@ __Language :__ English | [Bahasa Indonesia](README_ID.md)
 # Mobile Technical Task
 Apps for Lunch Recipes Suggestion
 
+### Project Setup
+- Click on the code button to see the repo link
+- Open your terminal and run ``` git clone  https://github.com/oghenekparobor/eminokanju-oghenekparobor-techtask-mobile.git ```
+- Change to the flutter project ```cd eminokanju-oghenekparobor-techtask-mobile ```
+- Install the flutter plugins ```flutter pub get```
+- Create your ```.env``` file at the root of the project containing the BASE_URL=/*enter base url here*/
+- Get all generated classes ```dart run build_runner build --delete-conflicting-outputs```
+- We either you physical device connected or an emulator run the project ```flutter run```
+
 ## Time Management
 There is no deadline to do this tech task. It's up to you how you manage your time to accomplish at least the requirements.
 

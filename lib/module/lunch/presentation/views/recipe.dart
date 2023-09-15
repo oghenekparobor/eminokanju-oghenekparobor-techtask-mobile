@@ -9,7 +9,6 @@ import 'package:tech_task/core/network/state.dart';
 import 'package:tech_task/core/util/loader.dart';
 import 'package:tech_task/core/widgets/notification.dart';
 import 'package:tech_task/core/widgets/primary.dart';
-import 'package:tech_task/module/lunch/presentation/widgets/date_picker.dart';
 import 'package:tech_task/module/lunch/presentation/widgets/loader.dart';
 import 'package:tech_task/module/lunch/presentation/widgets/rtile.dart';
 
@@ -22,7 +21,6 @@ class ReceiptDate extends StatefulWidget {
 
 class _ReceiptDateState extends State<ReceiptDate> with Loader {
   bool initialLoding = false;
-  String date = '';
 
   @override
   void initState() {

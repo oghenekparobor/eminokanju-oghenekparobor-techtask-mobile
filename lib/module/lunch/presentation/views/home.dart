@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (context.lunch.selectedIngredients.isEmpty) {
                   context.notify.addNotification(
                     NotificationTile(
-                      message: 'Please at least one ingredient',
+                      message: 'Please select at least one ingredient',
                     ),
                   );
                 } else {

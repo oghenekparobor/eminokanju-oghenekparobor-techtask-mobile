@@ -9,7 +9,7 @@ import 'package:tech_task/core/network/state.dart';
 import 'package:tech_task/core/util/loader.dart';
 import 'package:tech_task/core/widgets/notification.dart';
 import 'package:tech_task/core/widgets/primary.dart';
-import 'package:tech_task/core/widgets/text_field.dart';
+import 'package:tech_task/module/lunch/presentation/widgets/date_picker.dart';
 import 'package:tech_task/module/lunch/presentation/widgets/loader.dart';
 import 'package:tech_task/module/lunch/presentation/widgets/rtile.dart';
 
@@ -22,6 +22,7 @@ class ReceiptDate extends StatefulWidget {
 
 class _ReceiptDateState extends State<ReceiptDate> with Loader {
   bool initialLoding = false;
+  String date = '';
 
   @override
   void initState() {
@@ -51,26 +52,16 @@ class _ReceiptDateState extends State<ReceiptDate> with Loader {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               16.verticalSpace,
-              Wrap(
-                children: [
-                  for (var ingredient in context.lunch.selectedIngredients)
-                    Padding(
-                      padding: EdgeInsets.only(right: 4.w, bottom: 8.h),
-                      child: Text(
-                        ingredient,
-                        style: context.textTheme.bodyMedium,
-                      ),
-                    ),
-                ],
+              Padding(
+                padding: EdgeInsets.only(right: 4.w, bottom: 8.h),
+                child: Text(
+                  context.lunch.selectedIngredients.join(', '),
+                  style: context.textTheme.bodyMedium,
+                ),
               ),
               16.verticalSpace,
-              PrimaryTextfield(
-                onChanged: (p0) {},
-                onSaved: (p0) {},
-                validator: (p0) {},
-                hint: 'Select lunch date',
-                onTap: () {},
-                readOnly: true,
+              PrimaryDatePicker(
+                dateSelected: (d) => date = d,
               ),
               8.verticalSpace,
               PrimaryButton(

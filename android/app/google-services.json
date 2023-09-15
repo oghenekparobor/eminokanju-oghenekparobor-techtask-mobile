@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "633840494536",
+    "project_id": "eminokanju-oghenekparobor-task",
+    "storage_bucket": "eminokanju-oghenekparobor-task.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:633840494536:android:f0ecd37672c0e73b53c2fd",
+        "android_client_info": {
+          "package_name": "com.example.tech_task"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFfUtxCAGhIrvCxBuoHjnyd6-pV2nNrVI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

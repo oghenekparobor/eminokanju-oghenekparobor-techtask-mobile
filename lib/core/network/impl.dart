@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tech_task/core/network/network_info.dart';
 import 'package:tech_task/core/network/state.dart';
@@ -16,12 +17,12 @@ class ImplFormatter {
       try {
         return LoadedState(await function.call());
       } on DioError catch (e, s) {
-        // FirebaseCrashlytics.instance.recordError(
-        //   e,
-        //   s,
-        //   reason: 'a fatal error on dio error',
-        //   fatal: true,
-        // );
+        FirebaseCrashlytics.instance.recordError(
+          e,
+          s,
+          reason: 'a fatal error on dio error',
+          fatal: true,
+        );
 
         if (e.type == DioErrorType.receiveTimeout ||
             e.type == DioErrorType.connectTimeout) {
@@ -38,17 +39,17 @@ class ImplFormatter {
 
         return ErrorState(e.message);
       } catch (e, s) {
-        // FirebaseCrashlytics.instance.recordError(
-        //   e,
-        //   s,
-        //   reason: 'a fatal error - on catch block',
-        //   fatal: true,
-        // );
+        FirebaseCrashlytics.instance.recordError(
+          e,
+          s,
+          reason: 'a fatal error - on catch block',
+          fatal: true,
+        );
 
         return ErrorState(e.toString());
       }
     } else {
-      // FirebaseCrashlytics.instance.log('no internet');
+      FirebaseCrashlytics.instance.log('no internet');
       return ErrorState('Please check your internet');
     }
   }

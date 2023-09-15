@@ -33,11 +33,12 @@ dependencies:
   flutter_screenutil: ^5.5.4
   provider: ^6.0.3
   mocktail: ^0.3.0
-  google_fonts: ^4.0.4
   envied: ^0.3.0+3
   shared_preferences: ^2.2.0
   connectivity_plus: ^4.0.2
   shimmer: ^3.0.0
+  firebase_core: ^2.15.1
+  firebase_crashlytics: ^3.3.5
 
 
 dev_dependencies:

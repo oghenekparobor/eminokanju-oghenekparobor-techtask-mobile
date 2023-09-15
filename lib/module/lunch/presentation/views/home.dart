@@ -146,24 +146,21 @@ class _HomeScreenState extends State<HomeScreen> with Loader {
                     child: StreamBuilder<List<Ingredients>?>(
                       stream: context.lunch.allIngredientStream,
                       builder: (_, value) => LayoutBuilder(
-                        builder: (context, constraints) => Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            spacing: 10.sp,
-                            children: [
-                              if (initialFetch) ...[
-                                if (value.data == null) ...[
-                                  for (int i = 0; i < 6; i++)
-                                    MyShimmerLoader(
-                                        height: 100.h, width: 100.w),
-                                ] else ...[
-                                  for (var ingredient in value.data ?? [])
-                                    IngredientTile(
-                                      constraints: constraints,
-                                      ingredient: ingredient,
-                                    ),
-                                ],
-                              ],
-                            ]),
+                        builder: (context, constraints) =>
+                            Wrap(spacing: 10.sp, children: [
+                          if (initialFetch) ...[
+                            if (value.data == null) ...[
+                              for (int i = 0; i < 6; i++)
+                                MyShimmerLoader(height: 100.h, width: 100.w),
+                            ] else ...[
+                              for (var ingredient in value.data ?? [])
+                                IngredientTile(
+                                  constraints: constraints,
+                                  ingredient: ingredient,
+                                ),
+                            ],
+                          ],
+                        ]),
                       ),
                     ),
                   ),

@@ -60,10 +60,6 @@ class _ReceiptDateState extends State<ReceiptDate> with Loader {
                 ),
               ),
               16.verticalSpace,
-              PrimaryDatePicker(
-                dateSelected: (d) => date = d,
-              ),
-              8.verticalSpace,
               PrimaryButton(
                 onTap: () async {
                   setState(() => initialLoding = true);

@@ -12,7 +12,7 @@ class MyBanner extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        30.verticalSpace,
+        15.verticalSpace,
         Text(
           'Recipe of the week',
           style: context.textTheme.bodyMedium,
@@ -20,7 +20,11 @@ class MyBanner extends StatelessWidget {
         8.verticalSpace,
         ClipRRect(
           borderRadius: BorderRadius.zero,
-          child: Image.asset(kPlaceholder1),
+          child: Image.asset(
+            kPlaceholder1,
+            height: 120.h,
+            fit: BoxFit.cover,
+          ),
         ),
         8.verticalSpace,
         Text(

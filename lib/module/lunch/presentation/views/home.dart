@@ -7,10 +7,12 @@ import 'package:tech_task/core/extension/context.dart';
 import 'package:tech_task/core/extension/widget.dart';
 import 'package:tech_task/core/network/network_info.dart';
 import 'package:tech_task/core/network/state.dart';
+import 'package:tech_task/core/util/loader.dart';
 import 'package:tech_task/core/widgets/notification.dart';
 import 'package:tech_task/core/widgets/primary.dart';
 import 'package:tech_task/module/lunch/data/models/ingredient.dart';
 import 'package:tech_task/module/lunch/presentation/widgets/banner.dart';
+import 'package:tech_task/module/lunch/presentation/widgets/date_picker.dart';
 import 'package:tech_task/module/lunch/presentation/widgets/loader.dart';
 import 'package:tech_task/module/lunch/presentation/widgets/tile.dart';
 
@@ -21,13 +23,13 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with Loader {
   bool hasError = false;
+  bool hasGottenIngredient = false;
+  bool initialFetch = false;
 
   @override
   void initState() {
-    Future.delayed(Duration.zero, _init);
-
     sl<NetworkInfo>().getConnectivity();
 
     super.initState();
@@ -36,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _init() {
     // there's no error
     setState(() => hasError = false);
+    setState(() => initialFetch = true);
 
     // fetch all ingredients
     context.lunch.getIngredient().then((value) {
@@ -46,6 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
         );
 
         setState(() => hasError = true);
+      } else {
+        setState(() => hasGottenIngredient = true);
       }
     });
   }
@@ -79,19 +84,22 @@ class _HomeScreenState extends State<HomeScreen> {
           10.verticalSpace,
           if (!hasError) ...[
             PrimaryButton(
-              onTap: () {
-                if (context.lunch.selectedIngredients.isEmpty) {
-                  context.notify.addNotification(
-                    NotificationTile(
-                      message: 'Please select at least one ingredient',
-                    ),
-                  );
-                } else {
-                  context.nav.pushNamed(Routes.selectDate);
-                }
-              },
-              text: 'Get Recipe',
+              onTap: hasGottenIngredient
+                  ? () {
+                      if (context.lunch.selectedIngredients.isEmpty) {
+                        context.notify.addNotification(
+                          NotificationTile(
+                            message: 'Please select at least one ingredient',
+                          ),
+                        );
+                      } else {
+                        context.nav.pushNamed(Routes.selectDate);
+                      }
+                    }
+                  : _init,
+              text: hasGottenIngredient ? 'Get Recipe' : 'Get Ingredients',
               alignment: Alignment.center,
+              isLoading: isLoading,
             ).padHorizontal,
           ],
           30.verticalSpace,
@@ -101,10 +109,16 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           MyBanner(),
-          30.verticalSpace,
+          15.verticalSpace,
           Text(
             'Ingredients',
             style: context.textTheme.bodyMedium,
+          ),
+          8.verticalSpace,
+          PrimaryDatePicker(
+            dateSelected: (d) {
+              setState(() => hasGottenIngredient = false);
+            },
           ),
           8.verticalSpace,
           Expanded(
@@ -121,21 +135,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       stream: context.lunch.allIngredientStream,
                       builder: (_, value) => LayoutBuilder(
                         builder: (context, constraints) => Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          spacing: 10.sp,
-                          children: [
-                            if (value.data == null) ...[
-                              for (int i = 0; i < 6; i++)
-                                MyShimmerLoader(height: 100.h, width: 100.w),
-                            ] else ...[
-                              for (var ingredient in value.data ?? [])
-                                IngredientTile(
-                                  constraints: constraints,
-                                  ingredient: ingredient,
-                                ),
-                            ],
-                          ],
-                        ),
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            spacing: 10.sp,
+                            children: [
+                              if (initialFetch) ...[
+                                if (value.data == null) ...[
+                                  for (int i = 0; i < 6; i++)
+                                    MyShimmerLoader(
+                                        height: 100.h, width: 100.w),
+                                ] else ...[
+                                  for (var ingredient in value.data ?? [])
+                                    IngredientTile(
+                                      constraints: constraints,
+                                      ingredient: ingredient,
+                                    ),
+                                ],
+                              ],
+                            ]),
                       ),
                     ),
                   ),

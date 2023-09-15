@@ -29,6 +29,9 @@ class LunchNotifier with ChangeNotifier {
       _ingredientsStream.stream;
 
   Future<AppState> getIngredient() async {
+    _ingredientsStream.add(null);
+    selectedIngredients.clear();
+
     var responses = await getIngredientUsecase.call(NoParams());
 
     if (!responses.isError) {

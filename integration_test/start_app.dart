@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:provider/provider.dart';
-import 'package:tech_task/core/logger/log.dart';
 import 'package:tech_task/main.dart' as app;
 import 'package:tech_task/main.dart';
 import 'package:tech_task/module/lunch/presentation/change-notifier/lunch.dart';
@@ -47,8 +46,6 @@ void main() {
 
     notifier = navkey.currentContext!.read<LunchNotifier>();
 
-    AppLogger.log(notifier.ingredients);
-
     if (notifier.ingredients != null && notifier.ingredients!.isNotEmpty) {
       final item = find.byKey(Key(notifier.ingredients!.first.title));
       expect(item, findsOneWidget);
@@ -58,26 +55,38 @@ void main() {
 
       await Future.delayed(Duration(milliseconds: 800));
 
-      await tester.tap(button);
-      await tester.pumpAndSettle();
+      if (notifier.isDatePaased(notifier.ingredients!.first)) {
+        // use date has passed
+        final notification = find.byKey(
+          Key('${notifier.ingredients!.first.title} is passed it\'s use date'),
+        );
 
-      await Future.delayed(Duration(milliseconds: 800));
-      await tester.pumpAndSettle();
+        expect(notification, findsOneWidget);
 
-      final recipeScreen = find.byKey(Key('recipe_screen'));
-      expect(recipeScreen, findsOneWidget);
+        await tester.drag(notification, Offset(-100, 0));
+      } else {
+        // use date is still valid
+        await tester.tap(button);
+        await tester.pumpAndSettle();
 
-      final showRecipeButton = find.byKey(Key('show_recipe_button'));
-      expect(showRecipeButton, findsOneWidget);
+        await Future.delayed(Duration(milliseconds: 800));
+        await tester.pumpAndSettle();
 
-      await tester.tap(showRecipeButton);
-      await tester.pumpAndSettle();
+        final recipeScreen = find.byKey(Key('recipe_screen'));
+        expect(recipeScreen, findsOneWidget);
 
-      await Future.delayed(Duration(milliseconds: 9000));
-      await tester.pumpAndSettle();
+        final showRecipeButton = find.byKey(Key('show_recipe_button'));
+        expect(showRecipeButton, findsOneWidget);
 
-      expect(notifier.recipes, isNotNull);
-      expect(notifier.recipes, isList);
+        await tester.tap(showRecipeButton);
+        await tester.pumpAndSettle();
+
+        await Future.delayed(Duration(milliseconds: 9000));
+        await tester.pumpAndSettle();
+
+        expect(notifier.recipes, isNotNull);
+        expect(notifier.recipes, isList);
+      }
     } else {
       final tryAgainButton = find.byKey(Key('try_again_button'));
       expect(tryAgainButton, findsOneWidget);

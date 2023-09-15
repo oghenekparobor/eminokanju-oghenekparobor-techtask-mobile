@@ -90,6 +90,6 @@ class LunchNotifier with ChangeNotifier {
   }
 
   bool isDatePaased(Ingredients ingredient) {
-    return !DateTime.now().isAfter(ingredient.useBy);
+    return DateTime.now().isAfter(ingredient.useBy);
   }
 }

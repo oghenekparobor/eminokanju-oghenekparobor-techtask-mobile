@@ -8,7 +8,7 @@ Apps for Lunch Recipes Suggestion
 - Open your terminal and run ``` git clone  https://github.com/oghenekparobor/eminokanju-oghenekparobor-techtask-mobile.git ```
 - Change to the flutter project ```cd eminokanju-oghenekparobor-techtask-mobile ```
 - Install the flutter plugins ```flutter pub get```
-- Create your ```.env``` file at the root of the project containing the BASE_URL=/*enter base url here*/
+- Create your ```.env``` file at the root of the project containing the ```BASE_URL=/*enter base url here*/```
 - Get all generated classes ```dart run build_runner build --delete-conflicting-outputs```
 - We either you physical device connected or an emulator run the project ```flutter run```
 

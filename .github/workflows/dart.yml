@@ -39,5 +39,8 @@ jobs:
       - name: Formatting lib folder
         run: dart format lib
 
-      - name: Running tests
+      - name: Running unit tests
         run: flutter test
+
+      - name: Running integration tests
+        run: flutter test integration_test/start_app.dart 
